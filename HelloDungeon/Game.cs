@@ -4,17 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace HelloDungeon
 {
     class Game
     {
         public void Run()
         {
+
+            ///Add a loop in every instance where the player must make a decision.
+            ///The loop should continue until the player gives a valid input.
+            ///Place the entire game into a game loop. The player should
+            ///be able to repeat the game as many times as they like.
+
             //Initializes player stats.
-            string playerName;
-            string playerChoice;
+            string playerName = "";
+            string playerChoice = "";
             float damage = 3.2f;
             float health = 100.0f * 2;
+            float strength = 10;
             int areaNumber = 0;
             bool playerIsAlive = health > 0;
 
@@ -23,34 +31,96 @@ namespace HelloDungeon
             float boardDamage = 1.0f;
             float bowThatShootsPipesDamage = 800.0f;
 
-            Console.WriteLine("What is your name.");
-
-            //Get player input for first and last character name.
-            playerName = Console.ReadLine();
-
-            //Display character name for player feedback.
-            Console.WriteLine("Hello" + playerName);
-            Console.WriteLine("Choose your weapon!");
-            Console.WriteLine("1. Sword of the Ancients");
-            Console.WriteLine("2. Wooden Board of the Home Depot");
-            Console.WriteLine("3. Bow and Pipe");
-
-            playerChoice = Console.ReadLine();
-
-            //Set damage stat based on weapon selection.
-            if (playerChoice == "1")
+            while (playerChoice != "1")
             {
-                damage = swordDamage;
-            }
-            else if (playerChoice == "2")
-            {
-                damage = boardDamage;
-            }
-            else if (playerChoice == "3")
-            {
-                damage = bowThatShootsPipesDamage;
+                Console.WriteLine("What is your name?");
+
+                Console.Write("> ");
+                //Get player input for character name.
+                 playerName = Console.ReadLine();
+
+                Console.WriteLine("Ah " + playerName + "! Am I pronouncing that correctly?");
+
+                //Confirm the player name choice.
+                Console.WriteLine("1.Yes");
+                Console.WriteLine("2.No");
+
+                Console.Write(">");
+                playerChoice = Console.ReadLine();
+
+                Console.Clear();
+
+                if (playerChoice == "1")
+                {
+                    //Display character name for player feedback.
+                    Console.WriteLine("Nice to meet you " + playerName + "!");
+                }
+                else if (playerChoice == "2")
+                {
+                    Console.WriteLine("Sorry about that!");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Input");
+                    Console.ReadKey(true);
+                }
+
             }
 
+            //Create a variable to store whether or not we made a valid choice.
+            bool weaponSelected = false;
+
+            //Loop until a valid choice is given.
+            while (weaponSelected == false)
+            {
+                //Display the options and option inputs.
+                Console.WriteLine("Choose your weapon!");
+                Console.WriteLine("1. Sword of the Ancients");
+                Console.WriteLine("2. Wooden Board of the Home Depot");
+                Console.WriteLine("3. Bow and Pipe");
+
+                //Get the input from the player.
+                playerChoice = Console.ReadLine();
+
+                //Set damage stat based on weapon selection.
+                if (playerChoice == "1")
+                {
+                    float scaledSwordDamage = swordDamage * strength;
+                    damage = scaledSwordDamage;
+                }
+                else if (playerChoice == "2")
+                {
+                    damage = boardDamage;
+                }
+                else if (playerChoice == "3")
+                {
+                    damage = bowThatShootsPipesDamage;
+                }
+
+                //Reset input for the next menu.
+                playerChoice = "";
+
+                //Loop until a valid choice is given.
+                while (playerChoice != "1" && playerChoice != "2")
+                {
+                    //Display choices.
+                    Console.WriteLine("Are you sure you want this weapon?");
+                    Console.WriteLine("1.Yes");
+                    Console.WriteLine("2.No");
+
+                    //Store player input.
+                    Console.Write("> ");
+                    playerChoice = Console.ReadLine();
+
+                    //If the player has confirmed that they want the changes...
+                    if (playerChoice == "1")
+                    {
+                        //...mark the input as valid.
+                        weaponSelected = true;
+                    }
+                }
+
+            }
             float enemyHealth = 100.0f;
             enemyHealth -= damage;
 
